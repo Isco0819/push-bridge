@@ -1,0 +1,7 @@
+{
+  "mode": "pro",
+  "license_key": "pk_live_REPLACE_ME",
+  "device_label": "Mac Studio",
+  "relay_url": "https://relay.push-bridge.dev",
+  "_comment": "BYO mode: set mode='byo' and webhook_url='https://ntfy.sh/your-topic'. relay_url overrides the default Pro relay (self-hosted or smoke-test deployment)."
+}
