@@ -29,7 +29,7 @@ First register your phone once at the PWA, then install the server in your agent
 ```bash
 claude mcp add push-bridge \
   -e PUSH_BRIDGE_LICENSE_KEY=pk_live_xxx \
-  -- node /ABSOLUTE/PATH/push-notification-bridge/mcp/server.mjs
+  -- npx -y github:Isco0819/push-bridge
 ```
 
 ### Codex CLI
@@ -37,7 +37,7 @@ claude mcp add push-bridge \
 ```toml
 [mcp_servers.push-bridge]
 command = "node"
-args = ["/ABSOLUTE/PATH/push-notification-bridge/mcp/server.mjs"]
+args = ["-y", "github:Isco0819/push-bridge"]
 env = { PUSH_BRIDGE_LICENSE_KEY = "pk_live_xxx" }
 ```
 
@@ -47,8 +47,8 @@ env = { PUSH_BRIDGE_LICENSE_KEY = "pk_live_xxx" }
 {
   "mcpServers": {
     "push-bridge": {
-      "command": "node",
-      "args": ["/ABSOLUTE/PATH/push-notification-bridge/mcp/server.mjs"],
+      "command": "npx",
+      "args": ["-y", "github:Isco0819/push-bridge"],
       "env": { "PUSH_BRIDGE_LICENSE_KEY": "pk_live_xxx" }
     }
   }
@@ -61,8 +61,8 @@ env = { PUSH_BRIDGE_LICENSE_KEY = "pk_live_xxx" }
 {
   "mcpServers": {
     "push-bridge": {
-      "command": "node",
-      "args": ["/ABSOLUTE/PATH/push-notification-bridge/mcp/server.mjs"],
+      "command": "npx",
+      "args": ["-y", "github:Isco0819/push-bridge"],
       "env": { "PUSH_BRIDGE_LICENSE_KEY": "pk_live_xxx" }
     }
   }
