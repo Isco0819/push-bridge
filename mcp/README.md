@@ -36,7 +36,7 @@ claude mcp add push-bridge \
 `~/.codex/config.toml`:
 ```toml
 [mcp_servers.push-bridge]
-command = "node"
+command = "npx"
 args = ["-y", "github:Isco0819/push-bridge"]
 env = { PUSH_BRIDGE_LICENSE_KEY = "pk_live_xxx" }
 ```
