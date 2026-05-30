@@ -23,6 +23,34 @@ const DEVICE = process.env.PUSH_BRIDGE_DEVICE_LABEL ?? "agent";
 const TIMEOUT_MS = Number(process.env.PUSH_BRIDGE_TIMEOUT_MS ?? 280000);
 const POLL_WAIT_MS = 5000;
 
+// Redact known secret patterns BEFORE anything leaves the machine. Mirrors
+// plugin/hooks/sanitize.jq so the cross-agent MCP path is as private as the
+// Claude Code hook path: the secret VALUE is masked, the command context is kept
+// so the human can still make an approve/deny decision.
+function redact(s) {
+  if (typeof s !== "string" || !s) return s;
+  return s
+    .replace(/sk-ant-[A-Za-z0-9_-]+/g, "REDACTED_ANTHROPIC_KEY")
+    .replace(/sk-proj-[A-Za-z0-9_-]+/g, "REDACTED_OPENAI_KEY")
+    .replace(/sk-[A-Za-z0-9]{32,}/g, "REDACTED_OPENAI_KEY")
+    .replace(/gsk_[A-Za-z0-9]{40,}/g, "REDACTED_GROQ_KEY")
+    .replace(/ghp_[A-Za-z0-9]{30,}/g, "REDACTED_GH_TOKEN")
+    .replace(/ghs_[A-Za-z0-9]{30,}/g, "REDACTED_GH_TOKEN")
+    .replace(/github_pat_[A-Za-z0-9_]{60,}/g, "REDACTED_GH_PAT")
+    .replace(/AKIA[0-9A-Z]{16}/g, "REDACTED_AWS_KEY")
+    .replace(/ASIA[0-9A-Z]{16}/g, "REDACTED_AWS_STS_KEY")
+    .replace(/AIzaSy[A-Za-z0-9_-]{33}/g, "REDACTED_GCP_KEY")
+    .replace(/xox[abprs]-[A-Za-z0-9-]+/g, "REDACTED_SLACK_TOKEN")
+    .replace(/eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+/g, "REDACTED_JWT")
+    .replace(
+      /(password|passwd|secret|api[_-]?key|token|bearer)(["' ]*[:=]["' ]*)[A-Za-z0-9_\-.]{20,}/gi,
+      "$1$2REDACTED"
+    )
+    .replace(/postgres(?:ql)?:\/\/[^@]+@[^/]+\/[^\s"']+/g, "REDACTED_PG_URL")
+    .replace(/mongodb(?:\+srv)?:\/\/[^@]+@[^/]+\/[^\s"']*/g, "REDACTED_MONGO_URL")
+    .replace(/redis:\/\/[^@]*@[^/]+/g, "REDACTED_REDIS_URL");
+}
+
 const TOOLS = [
   {
     name: "request_approval",
@@ -74,7 +102,7 @@ async function postWebhook(promptText) {
       session_id: "mcp",
       callback_id: newCallbackId(),
       device_label: DEVICE,
-      prompt: promptText,
+      prompt: redact(promptText),
       timestamp: Math.floor(Date.now() / 1000),
     }),
   });
