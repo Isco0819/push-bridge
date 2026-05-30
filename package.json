@@ -1,0 +1,11 @@
+{
+  "name": "push-bridge-mcp",
+  "version": "0.1.0",
+  "description": "Approve your AI coding agent's risky commands from your phone — MCP server (request_approval / notify).",
+  "type": "module",
+  "bin": { "push-bridge-mcp": "mcp/server.mjs" },
+  "files": ["mcp/server.mjs", "mcp/README.md", "plugin", "LICENSE", "README.md"],
+  "dependencies": { "@modelcontextprotocol/sdk": "^1.0.0" },
+  "license": "MIT",
+  "repository": { "type": "git", "url": "https://github.com/Isco0819/push-bridge.git" }
+}
