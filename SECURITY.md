@@ -87,6 +87,13 @@ notification target is yours to choose:
 
 The hosted relay + iOS app are the paid convenience (Pro) — not a requirement.
 
+## Usage analytics
+We record **aggregate, first-party** usage on our relay — counts of registrations,
+approval requests and decisions per day, plus pseudonymous (license-derived) ids
+to measure activation, retention and conversion. There are **no third-party
+trackers, no cookies, no PII, and the contents of your commands are never stored
+or counted.** Self-host the relay to opt out entirely.
+
 ## Reporting a vulnerability
 Email **tatusige0819@gmail.com** with details and steps to reproduce. Please don't
 open a public issue for security reports. We'll acknowledge and work a fix before
